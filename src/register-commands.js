@@ -16,8 +16,9 @@ const commands = [
   },
   {
     name: "gamble",
-    description: "50% chance of getting timed out for 20 seconds, but 3% chance of becoming admin",
-  }
+    description:
+      "50% chance of getting timed out for 20 seconds, but 3% chance of becoming admin",
+  },
 ];
 
 const rest = new REST({ version: "10" }).setToken(process.env.DISCORD_TOKEN);

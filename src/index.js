@@ -23,40 +23,26 @@ client.on("ready", async (c) => {
   client.user.setStatus("invisible");
 
   try {
-    // Log available guilds for debugging
-    console.log('Available guilds:', Array.from(client.guilds.cache.values()).map(g => ({
-      name: g.name,
-      id: g.id
-    })));
-
-    // Get specific guild using GUILD_ID from env
-    const guild = await client.guilds.fetch(process.env.GUILD_ID);
+    const guild = client.guilds.cache.get(process.env.GUILD_ID);
     if (!guild) {
-      throw new Error(`Guild ${process.env.GUILD_ID} not found`);
+      throw new Error("Guild not found in cache");
     }
-    console.log('Found guild:', guild.name);
+    console.log("Found guild:", guild.name);
 
-    // Get specific channel
-    const channel = guild.channels.cache.get(process.env.CHANNEL_ID);
+    // Get any text channel from the guild
+    const channel = guild.channels.cache.find((ch) => ch.type === 0);
     if (!channel) {
-      throw new Error('Channel not found');
-    }
-
-    const member = await guild.members.fetch(process.env.ID);
-    if (!member) {
-      throw new Error('Member not found');
+      throw new Error("No text channels found in guild");
     }
 
     const invite = await channel.createInvite({
-      maxAge: 120,
-      maxUses: 1,
-      unique: true,
+      maxAge: 0, // Never expires
+      maxUses: 0, // Unlimited uses
     });
 
-    await member.send(`Here's your way back in: ${invite.url}`);
-    console.log('Invite sent successfully');
+    console.log("Permanent server invite link:", invite.url);
   } catch (error) {
-    console.error('Error in ready event:', error.message);
+    console.error("Error in ready event:", error.message);
   }
 });
 

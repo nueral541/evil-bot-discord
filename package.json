@@ -19,7 +19,9 @@
   "homepage": "https://github.com/nueral541/trivia-bot-discord#readme",
   "description": "",
   "dependencies": {
+    "csv-parse": "^5.6.0",
     "discord.js": "^14.18.0",
-    "dotenv": "^16.5.0"
+    "dotenv": "^16.5.0",
+    "node-word2vec": "^0.0.8"
   }
 }
